@@ -82,32 +82,44 @@ class StudentHomePage extends StatelessWidget {
                   mainAxisSpacing: 16,
                   children: [
                     _buildFeatureCard(
+                      context: context,
                       icon: Icons.menu_book_rounded,
                       title: "Subjects",
                       color: Colors.deepPurple.shade100,
                       iconColor: Colors.deepPurple,
-                      onTap: () {},
+                      onTap: () {
+                        _showClassPopup(context);
+                      },
                     ),
                     _buildFeatureCard(
+                      context: context,
                       icon: Icons.assignment_turned_in_rounded,
                       title: "Assignments",
                       color: Colors.orange.shade100,
                       iconColor: Colors.deepOrange,
-                      onTap: () {},
+                      onTap: () {
+                        // Add your navigation or logic here
+                      },
                     ),
                     _buildFeatureCard(
+                      context: context,
                       icon: Icons.bar_chart_rounded,
                       title: "Progress",
                       color: Colors.lightBlue.shade100,
                       iconColor: Colors.blueAccent,
-                      onTap: () {},
+                      onTap: () {
+                        // Add your navigation or logic here
+                      },
                     ),
                     _buildFeatureCard(
+                      context: context,
                       icon: Icons.event_note_rounded,
                       title: "Events",
                       color: Colors.green.shade100,
                       iconColor: Colors.green,
-                      onTap: () {},
+                      onTap: () {
+                        // Add your navigation or logic here
+                      },
                     ),
                   ],
                 ),
@@ -120,6 +132,7 @@ class StudentHomePage extends StatelessWidget {
   }
 
   Widget _buildFeatureCard({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required Color color,
@@ -161,6 +174,47 @@ class StudentHomePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showClassPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Choose Class"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // TODO: Navigate to Class 10 page
+                print("Class 10 selected");
+              },
+              child: const Text("Class 10"),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // TODO: Navigate to Class 9 page
+                print("Class 9 selected");
+              },
+              child: const Text("Class 9"),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // TODO: Navigate to Class 8 page
+                print("Class 8 selected");
+              },
+              child: const Text("Class 8"),
+            ),
+          ],
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }

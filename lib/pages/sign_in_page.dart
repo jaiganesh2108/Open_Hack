@@ -55,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if (response.statusCode == 201) {
       _showMessage(responseData["message"]);
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/class-selection');
     } else {
       _showMessage(responseData["message"] ?? "Sign up failed");
     }
