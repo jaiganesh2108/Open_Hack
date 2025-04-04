@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:openhack/pages/login_page.dart';
-import 'class_selection.dart'; // Add import
 import 'package:openhack/pages/sign_in_page.dart'; // Make sure this import exists
 import 'package:openhack/pages/student_home_page.dart';
 
@@ -21,8 +20,6 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/signup': (context) => const SignUpPage(),
         '/home': (context) => const StudentHomePage(),
-        '/class-selection': (context) => const ClassSelectionPage(), // New route
-
       },
     );
   }
