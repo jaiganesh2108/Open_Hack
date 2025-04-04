@@ -19,6 +19,5 @@ mongoose.connect(process.env.MONGO_URL).then(()=> console.log("Mongo DB is conne
 
 app.use("/api/register", require("./Routes/auth/registerRoutes"));
 
-
 const PORT=process.env.PORT || 5000
 app.listen(PORT,()=>{ console.log(`server running on port ${PORT}`)})
