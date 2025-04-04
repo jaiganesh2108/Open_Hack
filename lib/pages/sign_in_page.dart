@@ -1,33 +1,55 @@
 import 'package:flutter/material.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
-  final _nameController = TextEditingController();
+class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
-  void _signIn() {
-    final name = _nameController.text.trim();
-    final email = _emailController.text.trim();
-    final password = _passwordController.text;
+  void _signUp() {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text;
+    String confirmPassword = _confirmPasswordController.text;
 
-    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please fill all fields")),
       );
+      return;
     }
+
+    if (!email.endsWith('@gmail.com')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Only Gmail addresses are allowed")),
+      );
+      return;
+    }
+
+    if (password.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Password must be at least 6 characters")),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   void _goToLogin() {
-    Navigator.pushNamed(context, '/login');
+    Navigator.pop(context);
   }
 
   @override
@@ -50,16 +72,10 @@ class _SignInPageState extends State<SignInPage> {
               ),
               const SizedBox(height: 20),
               Image.asset(
-                'assets/images/welcome.png',
+                'assets/images/signup.png', // replace with your own asset
                 height: MediaQuery.of(context).size.height * 0.25,
               ),
               const SizedBox(height: 30),
-              _buildInputField(
-                controller: _nameController,
-                hintText: "Full Name",
-                icon: Icons.person_outline,
-              ),
-              const SizedBox(height: 20),
               _buildInputField(
                 controller: _emailController,
                 hintText: "Email",
@@ -72,11 +88,18 @@ class _SignInPageState extends State<SignInPage> {
                 icon: Icons.lock_outline,
                 isPassword: true,
               ),
+              const SizedBox(height: 20),
+              _buildInputField(
+                controller: _confirmPasswordController,
+                hintText: "Confirm Password",
+                icon: Icons.lock_person_outlined,
+                isPassword: true,
+              ),
               const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _signIn,
+                  onPressed: _signUp,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,

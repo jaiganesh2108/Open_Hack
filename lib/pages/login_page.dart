@@ -15,13 +15,22 @@ class _LoginPageState extends State<LoginPage> {
     String email = _emailController.text.trim();
     String password = _passwordController.text;
 
-    if (email.isNotEmpty && password.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
+    if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter email and password")),
       );
+      return;
     }
+
+    if (!email.endsWith('@gmail.com')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email must be a @gmail.com address")),
+      );
+      return;
+    }
+
+    // Navigate to home if validation passes
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   void _goToSignUp() {
