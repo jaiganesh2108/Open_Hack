@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,7 +13,7 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  void _login() {
+  void _login() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text;
 
@@ -29,8 +31,38 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // Navigate to home if validation passes
-    Navigator.pushReplacementNamed(context, '/home');
+    try {
+      var url = Uri.parse('http://192.168.50.136:5000/api/auth/login'); // <-- Replace with your IP
+      var response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "password": password}),
+      );
+
+      print('Response: ${response.statusCode}');
+      print('Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'] ?? 'Login successful')),
+        );
+
+        // Navigate to home page
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        var error = jsonDecode(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error['message'] ?? 'Login failed')),
+        );
+      }
+    } catch (e) {
+      print("Login error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error connecting to server")),
+      );
+    }
   }
 
   void _goToSignUp() {
