@@ -7,6 +7,7 @@ const generateUserId=()=> "u" +Math.floor(Math.random()*1000000);
 router.post("/",async(req,res)=>{
 
     try {
+        
         console.log("Received request:", req.body); 
 
         const { email, password } = req.body;
