@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      var url = Uri.parse('http://192.168.50.136:5000/api/auth/login'); // <-- Replace with your IP
+      var url = Uri.parse('http://192.168.50.136:5000/api/auth/login');
       var response = await http.post(
         url,
         headers: {"Content-Type": "application/json"},
