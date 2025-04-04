@@ -7,11 +7,11 @@ const generateUserId=()=> "u" +Math.floor(Math.random()*1000000);
 router.post("/",async(req,res)=>{
 
     try {
-        
+
         console.log("Received request:", req.body); 
 
-        const { email, password } = req.body;
-        if (!email || !password) {
+        const { userName ,email, password } = req.body;
+        if (!userName || !email || !password) {
             console.log("Validation failed");  
             return res.status(400).json({ message: "All fields are required" });
         }
@@ -23,7 +23,7 @@ router.post("/",async(req,res)=>{
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new users({ email, password: hashedPassword ,  userId: generateUserId() });
+        const user = new users({ userName , email, password: hashedPassword ,  userId: generateUserId() });
 
         await user.save();
         console.log("User registered successfully");  
@@ -34,3 +34,5 @@ router.post("/",async(req,res)=>{
     }
 
 })
+
+module.exports = router;
